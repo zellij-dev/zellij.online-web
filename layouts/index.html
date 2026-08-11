@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>{{ .Title }}</title>
+  <link rel="canonical" href="{{ .Permalink }}">
+  <meta name="description" content="{{ .Site.Params.description }}">
+
+  <meta property="og:title" content="{{ .Site.Params.tagline_1 }} — {{ .Site.Params.tagline_2 }}">
+  <meta property="og:description" content="{{ .Site.Params.description }}">
+  <meta property="og:type" content="website">
+  <meta name="theme-color" content="#0e0e16">
+
+  <link rel="icon" type="image/svg+xml" href="img/favicon.svg">
+  <link rel="stylesheet" href="css/style.css">
+  <script defer src="js/gsap.min.js"></script>
+  <script defer src="js/termshare.js"></script>
+</head>
+<body>
+
+<main class="wrap">
+  <div class="row">
+    <section class="pane pane-active">
+      <span class="chip">hero</span>
+      <div class="hero-brand">
+        <div class="hero-logo">{{ partial "logo.html" . }}</div>
+        <h1>{{ .Site.Params.tagline_1 }}</h1>
+      </div>
+      <p class="lede">{{ .Site.Params.tagline_2 }}</p>
+      <p class="lede">{{ .Site.Params.description }}</p>
+      <div class="cta">
+        <a class="btn btn-accent" href="#waitlist">[ join waitlist ]</a>
+        <a class="btn" href="#about">[ what is this? ]</a>
+      </div>
+    </section>
+
+    <section class="pane pane-terminal" id="demo" aria-label="Product demo">
+      <span class="chip">terminal</span>
+      {{ partial "termshare-svg.html" . }}
+    </section>
+  </div>
+
+  <section class="pane about" id="about" aria-label="About Zellij.online">
+    <span class="chip">about</span>
+    <h2>What is Zellij.online?</h2>
+    <p class="section-lede">From the maintainers of Zellij, the beloved terminal workspace, comes an online multiplayer service that works.</p>
+    <div class="features">
+      <div class="feature"><h3>Share your terminal</h3><p>Collaborative coding, pair programming, remote work, or live streaming to friends and followers. You decide who watches and who types.</p></div>
+      <div class="feature"><h3>Private by design</h3><p>A privacy-focused, end-to-end encrypted experience that works in your browser, terminal or phone.</p></div>
+      <div class="feature"><h3>100% self-owned</h3><p>Not funded by VCs or private equity. We don't sell your data. We don't add unsolicited AI features. We're here for you, because we love our users.</p></div>
+    </div>
+    <p class="about-tagline">Honest. Accessible. Awesome.</p>
+  </section>
+
+  <section class="pane waitlist" id="waitlist" aria-label="Join the waiting list">
+    <span class="chip">waitlist</span>
+    <h2>Join the waiting list:</h2>
+    <form class="waitlist-form" action="https://flow.cleverreach.com/fl/ae48c9c1-ac6c-41ac-9c72-26d14b4ea9ef/confirm" method="post" target="_blank">
+      <input type="text" tabindex="-1" autocomplete="false" style="display:none !important;" name="email_confirm">
+      <input type="email" name="email" placeholder="you@domain.com" required aria-label="Email address">
+      <button type="submit" class="btn btn-accent">[ join ]</button>
+      <label class="checkbox-row">
+        <input type="checkbox" name="tags[]" value="maus">
+        Yes, I want to be a beta tester!
+      </label>
+    </form>
+    <p class="waitlist-note">We don't spam. Pinky promise.</p>
+  </section>
+
+</main>
+
+</body>
+</html>

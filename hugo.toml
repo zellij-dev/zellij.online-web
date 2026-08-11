@@ -1,0 +1,12 @@
+baseURL = "https://zellij.online/"
+languageCode = "en-us"
+title = "Zellij.online — Terminal sharing that actually works."
+disableKinds = ["taxonomy", "term", "RSS", "sitemap", "robotsTXT", "404"]
+
+[params]
+  description = "Share your terminal sessions online. No setup, no port-forwarding — end to end encrypted. Join the waiting list."
+  tagline_1 = "Zellij.online"
+  tagline_2 = "Terminal sharing that actually works."
+
+[build]
+  writeStats = false
