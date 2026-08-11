@@ -10,3 +10,7 @@ disableKinds = ["taxonomy", "term", "RSS", "sitemap", "robotsTXT", "404"]
 
 [build]
   writeStats = false
+
+[caches]
+  [caches.images]
+    dir = ':cacheDir/images'
