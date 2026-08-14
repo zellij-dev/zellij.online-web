@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-	<meta name="generator" content="Hugo 0.163.3"><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script>
+	<meta name="generator" content="Hugo 0.131.0"><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Zellij.online — Terminal sharing that actually works.</title>
@@ -17,6 +17,7 @@
   <link rel="stylesheet" href="css/style.css">
   <script defer src="js/gsap.min.js"></script>
   <script defer src="js/termshare.js"></script>
+  <script defer src="js/waitlist.js"></script>
 </head>
 <body>
 
@@ -519,14 +520,19 @@
   <section class="pane waitlist" id="waitlist" aria-label="Join the waiting list">
     <span class="chip">waitlist</span>
     <h2>Join the waiting list:</h2>
-    <form class="waitlist-form" action="https://flow.cleverreach.com/fl/ae48c9c1-ac6c-41ac-9c72-26d14b4ea9ef/confirm" method="post" target="_blank">
-      <input type="text" tabindex="-1" autocomplete="false" style="display:none !important;" name="email_confirm">
-      <input type="email" name="email" placeholder="you@domain.com" required aria-label="Email address">
-      <button type="submit" class="btn btn-accent">[ join ]</button>
+    <form class="waitlist-form" action="https://app.keila.io/forms/nfrm_b94BQ5RD" method="post" target="_blank">
+      <input type="text" tabindex="-1" autocomplete="off" aria-hidden="true" style="display:none !important;" name="h[url]">
+      <input type="email" id="contact_email" name="contact[email]" placeholder="you@domain.com" required aria-label="Email address">
       <label class="checkbox-row">
-        <input type="checkbox" name="tags[]" value="maus">
+        <input type="checkbox" name="contact[data][beta_tester]" value="true">
         Yes, I want to be a beta tester!
       </label>
+      <div class="waitlist-actions">
+        <div class="captcha-row">
+          <div class="h-captcha" data-sitekey="a1c5fab7-71df-4ea4-af75-87a3d07c61de" data-theme="dark"></div>
+        </div>
+        <button type="submit" class="btn btn-accent">[ join ]</button>
+      </div>
     </form>
     <p class="waitlist-note">We don't spam. Pinky promise.</p>
   </section>
