@@ -1,0 +1,11 @@
+{{ define "main" }}
+<main class="wrap">
+  <section class="pane legal" aria-label="{{ .Title }}">
+    <span class="chip">{{ with .Params.chip }}{{ . }}{{ else }}legal notice{{ end }}</span>
+    <h2>{{ .Title }}</h2>
+    <div class="legal-body">
+      {{ .Content }}
+    </div>
+  </section>
+</main>
+{{ end }}
