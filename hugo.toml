@@ -7,6 +7,9 @@ enableGitInfo = false
 [minify]
   disableHTML = false
   minifyOutput = true
+  [minify.tdewolff]
+    [minify.tdewolff.html]
+      keepQuotes = true
 
 [params]
   description = "Share your terminal sessions online. No setup, no port-forwarding - end to end encrypted."
