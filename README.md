@@ -1,66 +1,83 @@
-# Zellij.online — one-page site (Hugo)
+# Zellij.online — landing page (Hugo)
 
-## Run it locally
+Static one-page site for zellij.online, built with Hugo and deployed to GitHub
+Pages via GitHub Actions.
 
-1. Install Hugo (extended not required — this site uses no Sass):
+## Local development
+
+1. Install Hugo **extended** (the CI pins `0.148.2`):
    - macOS: `brew install hugo`
-   - Or download a binary for your OS from https://github.com/gohugoio/hugo/releases
+   - Or download from https://github.com/gohugoio/hugo/releases
 
-2. From this folder, start the dev server:
+2. Start the dev server:
    ```
-   hugo server -D
+   hugo server
    ```
-   Then open http://localhost:1313 — it live-reloads as you edit files.
+   Open http://localhost:1313 — it live-reloads as you edit.
 
-3. Build the static site for deployment:
+3. Reproduce the production build locally:
    ```
-   hugo --minify
+   hugo --minify --gc --cleanDestinationDir
    ```
-   Output goes to `public/` — upload that folder's contents to any static
-   host (Netlify, Vercel, GitHub Pages, Cloudflare Pages, S3, etc).
+   Output goes to `public/`, which is git-ignored and never committed.
+
+## Deployment
+
+Pushing to `main` triggers `.github/workflows/hugo.yml`, which builds the site
+and publishes it to GitHub Pages. Pull requests run the same build as a check
+but do not deploy.
+
+One-time repository setup:
+
+- Settings → Pages → Source: **GitHub Actions**
+- Settings → Pages → Custom domain: `zellij.online`, then enable
+  **Enforce HTTPS** once the certificate is issued
+- DNS for `zellij.online`: four apex `A` records to `185.199.108.153`,
+  `185.199.109.153`, `185.199.110.153`, `185.199.111.153` (and the matching
+  `AAAA` records), plus a `CNAME` for `www` pointing at
+  `<owner>.github.io`
+
+`static/CNAME` is committed so the custom domain survives every redeploy. The
+canonical origin is set by `baseURL` in `hugo.toml`; change both together if
+the domain ever changes.
 
 ## Where to edit things
 
-- `hugo.toml` — site title, tagline text, meta description (params).
-## Site title is what appears on the Google search. Meta description is what will appear in the body text for the page’s listing on search engines. keep at 150-160 characters.
-- `content/_index.md` — page title/description used for SEO tags.
-## Also meta desc and SEO tags
-- `layouts/index.html` — the entire page markup (single template, no nav bar).
-## Place of canonical URL 
-- `static/css/style.css` — all styling (colors, type, layout, responsive rules).
-- `static/img/demo-placeholder.svg` — swap this for your real demo asset.
+| Path | Purpose |
+| --- | --- |
+| `hugo.toml` | `baseURL`, site title, taglines, meta description |
+| `content/_index.md` | Home page title and SEO description |
+| `content/legal.md`, `content/privacy.md` | Legal notice and privacy policy |
+| `layouts/index.html` | Full home page markup |
+| `layouts/_default/baseof.html` | `<head>`, meta/OG tags, footer, analytics |
+| `layouts/_default/single.html` | Legal and privacy page shell |
+| `layouts/404.html` | Not-found page |
+| `static/css/style.css` | All styling |
+| `static/js/` | Terminal animation, waitlist/hCaptcha wiring, GSAP |
+| `static/robots.txt` | Crawler rules and sitemap pointer |
 
-## We're lacking: Sitemap, pagination, pagination meta-tags, 404 page.
+Keep the site title under ~60 characters and the meta description at 150–160
+characters; both are what search engines display.
 
-## Swapping in the real product demo
+## Waitlist form
 
-The demo section currently shows a labeled placeholder SVG. Recommendation:
-use a short, muted, autoplaying, looping `<video>` instead of a GIF — same
-"always playing" feel, much smaller file size and sharper image at the same
-quality. In `layouts/index.html`, replace the `<img>` line inside
-`.demo-frame` with something like:
+The form in `layouts/index.html` posts to a hosted Keila form
+(`https://app.keila.io/forms/...`) and is protected by hCaptcha, loaded on
+demand by `static/js/waitlist.js`. Keila's double opt-in confirms every
+address. Changing the provider means updating the form `action` and the field
+names, and updating section 4 of `content/privacy.md` accordingly.
 
-```html
-<video src="/img/demo.mp4" autoplay loop muted playsinline></video>
-```
+## Third parties (all disclosed in the privacy policy)
 
-Drop `demo.mp4` into `static/img/`. If you'd rather keep a GIF, just replace
-`static/img/demo-placeholder.svg` and point the `<img src>` at it.
+- **Keila Cloud** — newsletter/waitlist processing
+- **hCaptcha** — bot protection on the waitlist form
+- **GoatCounter** — cookieless, aggregate analytics
 
-## Wiring up the waitlist form
+## Design notes
 
-The email form in the "waitlist" section is intentionally inert
-(`action="#"`) so you can point it at whatever email service you use —
-Mailchimp, ConvertKit, Buttondown, a Formspree endpoint, Netlify Forms, etc.
-Most of these just need you to change the `<form>`'s `action` and `method`,
-and possibly add a hidden field they require.
-
-## Notes on the design
-
-- No top navigation bar, per the brief — this is a single scrolling page.
-- The bottom status bar is fixed and always visible (mirrors the reference
-  image), with the keybinding hints hidden on narrow screens to save space.
-- Font is JetBrains Mono throughout (loaded from Google Fonts), matching the
-  terminal aesthetic of the reference.
-- Fully responsive: test narrow widths — the waitlist form stacks, the demo
-  frame scales down, and the status bar simplifies to mode + site name only.
+- Single scrolling page, no top navigation.
+- Iosevka Term is self-hosted from `static/fonts/`; no external font requests.
+- The terminal demo is an inline SVG (`layouts/partials/termshare-svg.html`)
+  animated with GSAP, so it stays sharp at any size with no video payload.
+- Fully responsive — check narrow widths, where the waitlist form stacks and
+  the hero and terminal panes reflow into a single column.

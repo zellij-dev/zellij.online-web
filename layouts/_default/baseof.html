@@ -3,9 +3,10 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>{{ .Title }}</title>
+  <title>{{ with .Title }}{{ . }}{{ else }}{{ .Site.Title }}{{ end }}</title>
   <link rel="canonical" href="{{ .Permalink }}">
-  <meta name="description" content="{{ .Site.Params.description }}">
+  <meta name="description" content="{{ with .Description }}{{ . }}{{ else }}{{ .Site.Params.description }}{{ end }}">
+  {{ if or .Params.noindex (eq .Kind "404") }}<meta name="robots" content="noindex, nofollow">{{ end }}
 
   <meta property="og:title" content="{{ .Site.Params.tagline_1 }} - {{ .Site.Params.tagline_2 }}">
   <meta property="og:description" content="{{ .Site.Params.description }}">

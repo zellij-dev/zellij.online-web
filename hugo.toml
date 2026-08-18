@@ -1,7 +1,12 @@
 baseURL = "https://zellij.online/"
 languageCode = "en-us"
 title = "Zellij.online - Terminal sharing that actually works."
-disableKinds = ["taxonomy", "term", "RSS", "sitemap", "robotsTXT", "404"]
+disableKinds = ["taxonomy", "term", "RSS", "robotsTXT"]
+enableGitInfo = false
+
+[minify]
+  disableHTML = false
+  minifyOutput = true
 
 [params]
   description = "Share your terminal sessions online. No setup, no port-forwarding - end to end encrypted."

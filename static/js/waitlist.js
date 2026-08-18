@@ -38,7 +38,9 @@
         theme: holder.getAttribute('data-theme') || 'dark'
       });
     } catch (e) {
-      void e;
+      if (window.console && console.error) console.error('hcaptcha render failed', e);
+      fail();
+      return;
     }
 
     row.classList.remove('is-pending');
@@ -67,4 +69,26 @@
 
   form.addEventListener('focusin', request);
   form.addEventListener('pointerdown', request);
+
+  var success = document.querySelector('.waitlist-success');
+  var note = document.querySelector('.waitlist-note');
+
+  form.addEventListener('submit', function () {
+    var token = '';
+    try {
+      token = window.hcaptcha ? window.hcaptcha.getResponse() : '';
+    } catch (e) {
+      token = '';
+    }
+    if (!token) return;
+
+    window.setTimeout(function () {
+      form.hidden = true;
+      if (note) note.hidden = true;
+      if (success) {
+        success.hidden = false;
+        success.focus();
+      }
+    }, 0);
+  });
 })();
