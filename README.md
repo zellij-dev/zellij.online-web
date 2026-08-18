@@ -1,83 +1,51 @@
-# Zellij.online — landing page (Hugo)
+# zellij.online
 
-Static one-page site for zellij.online, built with Hugo and deployed to GitHub
-Pages via GitHub Actions.
+Landing page. Hugo, deployed to GitHub Pages on push to `main`.
 
-## Local development
+## Develop
 
-1. Install Hugo **extended** (the CI pins `0.148.2`):
-   - macOS: `brew install hugo`
-   - Or download from https://github.com/gohugoio/hugo/releases
+Needs Hugo extended (CI uses 0.148.2).
 
-2. Start the dev server:
-   ```
-   hugo server
-   ```
-   Open http://localhost:1313 — it live-reloads as you edit.
+```
+hugo server
+```
 
-3. Reproduce the production build locally:
-   ```
-   hugo --minify --gc --cleanDestinationDir
-   ```
-   Output goes to `public/`, which is git-ignored and never committed.
+Production build:
 
-## Deployment
+```
+hugo --minify --gc --cleanDestinationDir
+```
 
-Pushing to `main` triggers `.github/workflows/hugo.yml`, which builds the site
-and publishes it to GitHub Pages. Pull requests run the same build as a check
-but do not deploy.
+## Deploy
 
-One-time repository setup:
+Push to `main`. See `.github/workflows/hugo.yml`. PRs build but don't deploy.
 
-- Settings → Pages → Source: **GitHub Actions**
-- Settings → Pages → Custom domain: `zellij.online`, then enable
-  **Enforce HTTPS** once the certificate is issued
-- DNS for `zellij.online`: four apex `A` records to `185.199.108.153`,
-  `185.199.109.153`, `185.199.110.153`, `185.199.111.153` (and the matching
-  `AAAA` records), plus a `CNAME` for `www` pointing at
-  `<owner>.github.io`
+Custom domain comes from `static/CNAME` plus `baseURL` in `hugo.toml`. Change
+both together.
 
-`static/CNAME` is committed so the custom domain survives every redeploy. The
-canonical origin is set by `baseURL` in `hugo.toml`; change both together if
-the domain ever changes.
+## Layout
 
-## Where to edit things
+- `hugo.toml` — title, taglines, description
+- `content/` — home page front matter, legal notice, privacy policy
+- `layouts/index.html` — the page
+- `layouts/_default/baseof.html` — head, meta tags, footer, analytics
+- `static/css/style.css` — all styling
+- `static/js/` — terminal animation (GSAP), waitlist form
 
-| Path | Purpose |
-| --- | --- |
-| `hugo.toml` | `baseURL`, site title, taglines, meta description |
-| `content/_index.md` | Home page title and SEO description |
-| `content/legal.md`, `content/privacy.md` | Legal notice and privacy policy |
-| `layouts/index.html` | Full home page markup |
-| `layouts/_default/baseof.html` | `<head>`, meta/OG tags, footer, analytics |
-| `layouts/_default/single.html` | Legal and privacy page shell |
-| `layouts/404.html` | Not-found page |
-| `static/css/style.css` | All styling |
-| `static/js/` | Terminal animation, waitlist/hCaptcha wiring, GSAP |
-| `static/robots.txt` | Crawler rules and sitemap pointer |
+## Waitlist
 
-Keep the site title under ~60 characters and the meta description at 150–160
-characters; both are what search engines display.
+Posts to a hosted Keila form with hCaptcha. `static/js/waitlist.js` loads the
+captcha on first interaction and swaps in a confirmation message on submit.
+Keila handles double opt-in.
 
-## Waitlist form
+Changing provider means updating the form action and field names in
+`layouts/index.html`, and section 4 of `content/privacy.md`.
 
-The form in `layouts/index.html` posts to a hosted Keila form
-(`https://app.keila.io/forms/...`) and is protected by hCaptcha, loaded on
-demand by `static/js/waitlist.js`. Keila's double opt-in confirms every
-address. Changing the provider means updating the form `action` and the field
-names, and updating section 4 of `content/privacy.md` accordingly.
+## Third parties
 
-## Third parties (all disclosed in the privacy policy)
+Keila, hCaptcha, GoatCounter. All disclosed in the privacy policy.
 
-- **Keila Cloud** — newsletter/waitlist processing
-- **hCaptcha** — bot protection on the waitlist form
-- **GoatCounter** — cookieless, aggregate analytics
+## Notes
 
-## Design notes
-
-- Single scrolling page, no top navigation.
-- Iosevka Term is self-hosted from `static/fonts/`; no external font requests.
-- The terminal demo is an inline SVG (`layouts/partials/termshare-svg.html`)
-  animated with GSAP, so it stays sharp at any size with no video payload.
-- Fully responsive — check narrow widths, where the waitlist form stacks and
-  the hero and terminal panes reflow into a single column.
+- Iosevka is self-hosted; no external font requests.
+- The terminal demo is an inline SVG animated with GSAP.
