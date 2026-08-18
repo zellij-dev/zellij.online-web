@@ -11,6 +11,8 @@
   <meta property="og:title" content="{{ .Site.Params.tagline_1 }} - {{ .Site.Params.tagline_2 }}">
   <meta property="og:description" content="{{ .Site.Params.description }}">
   <meta property="og:type" content="website">
+  <meta property="og:site_name" content="{{ .Site.Params.tagline_1 }}">
+  <meta property="og:locale" content="en_US">
   <meta property="og:url" content="{{ .Permalink }}">
   <meta property="og:image" content="{{ "img/social-preview.png" | absURL }}">
   <meta property="og:image:width" content="1215">
@@ -23,7 +25,26 @@
   <meta name="twitter:image" content="{{ "img/social-preview.png" | absURL }}">
   <meta name="theme-color" content="#0e0e16">
 
+  {{ if .IsHome }}
+  <script type="application/ld+json">
+  {{- dict
+    "@context" "https://schema.org"
+    "@type" "WebSite"
+    "name" .Site.Params.tagline_1
+    "url" .Site.BaseURL
+    "description" .Site.Params.description
+    "publisher" (dict
+      "@type" "Organization"
+      "name" "poor.dev GmbH"
+      "url" .Site.BaseURL
+      "logo" (absURL "img/favicon.svg")
+    )
+  | jsonify (dict "indent" "  ") | safeJS -}}
+  </script>
+  {{ end }}
+
   <link rel="icon" type="image/svg+xml" href="{{ "img/favicon.svg" | relURL }}">
+  <link rel="preload" as="font" type="font/woff" href="{{ "fonts/iosevka-term-regular.woff" | relURL }}" crossorigin>
   <link rel="stylesheet" href="{{ "css/style.css" | relURL }}">
   <script defer src="{{ "js/gsap.min.js" | relURL }}"></script>
   <script defer src="{{ "js/termshare.js" | relURL }}"></script>

@@ -194,6 +194,29 @@ h1 {
 .feature p { margin: 0; font-size: 13px; color: var(--zo-fg); opacity: 0.72; }
 .section-lede { margin: 0; font-size: 13.25px; color: var(--zo-fg); opacity: 0.82; }
 
+.section-lede a,
+.feature p a {
+  color: var(--zo-accent);
+  text-decoration: underline;
+  text-decoration-color: color-mix(in srgb, var(--zo-accent) 65%, transparent);
+  text-decoration-thickness: 1px;
+  text-underline-offset: 3px;
+  transition: color 0.15s ease, text-decoration-color 0.15s ease;
+}
+
+.section-lede a:hover,
+.feature p a:hover {
+  color: var(--zo-accent-bright);
+  text-decoration-color: var(--zo-accent-bright);
+}
+
+.section-lede a:focus-visible,
+.feature p a:focus-visible {
+  outline: 2px solid var(--zo-accent);
+  outline-offset: 2px;
+  border-radius: 1px;
+}
+
 .waitlist-form {
   display: flex;
   flex-wrap: wrap;

@@ -19,3 +19,5 @@ node_modules/
 *.docx
 /terminal-sharing.html
 /zellij-online.html
+
+/screenshot.png
